@@ -1,0 +1,14 @@
+{
+  "moves": [
+    {
+      "move": {
+        "name": "thunder shock"
+      }
+    },
+    {
+      "move": {
+        "name": "thunder"
+      }
+    }
+  ]
+}

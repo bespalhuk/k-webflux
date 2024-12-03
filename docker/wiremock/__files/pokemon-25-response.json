@@ -1,0 +1,14 @@
+{
+  "moves": [
+    {
+      "move": {
+        "name": "shock"
+      }
+    },
+    {
+      "move": {
+        "name": "discharge"
+      }
+    }
+  ]
+}

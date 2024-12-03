@@ -1,0 +1,14 @@
+{
+  "moves": [
+    {
+      "move": {
+        "name": "fire spin"
+      }
+    },
+    {
+      "move": {
+        "name": "fire blast"
+      }
+    }
+  ]
+}

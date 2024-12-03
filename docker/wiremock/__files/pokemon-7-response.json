@@ -1,0 +1,14 @@
+{
+  "moves": [
+    {
+      "move": {
+        "name": "bubble"
+      }
+    },
+    {
+      "move": {
+        "name": "water pulse"
+      }
+    }
+  ]
+}

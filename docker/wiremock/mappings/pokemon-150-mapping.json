@@ -1,0 +1,13 @@
+{
+  "request": {
+    "method": "GET",
+    "urlPathPattern": "/api/pokemon/150"
+  },
+  "response": {
+    "status": 200,
+    "bodyFileName": "pokemon-150-response.json",
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  }
+}

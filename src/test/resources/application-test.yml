@@ -1,0 +1,23 @@
+---
+server:
+  shutdown: graceful
+
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  jackson:
+    default-property-inclusion: non_null
+  data:
+    mongodb:
+      auto-index-creation: true
+
+integration:
+  client:
+    default:
+      timeout: 10000
+      keep-idle: 1
+      keep-interval: 1
+      keep-cnt: 1
+    pokemon-api:
+      url: 'http://localhost:${wiremock.server.port}/api'
+      timeout: 10000

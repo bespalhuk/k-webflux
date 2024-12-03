@@ -1,0 +1,14 @@
+{
+  "moves": [
+    {
+      "move": {
+        "name": "ice shard"
+      }
+    },
+    {
+      "move": {
+        "name": "blizzard"
+      }
+    }
+  ]
+}

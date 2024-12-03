@@ -1,0 +1,14 @@
+{
+  "moves": [
+    {
+      "move": {
+        "name": "ember"
+      }
+    },
+    {
+      "move": {
+        "name": "flamethrower"
+      }
+    }
+  ]
+}

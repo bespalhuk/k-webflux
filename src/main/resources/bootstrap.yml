@@ -1,0 +1,7 @@
+spring:
+  application.name: 'k-webflux'
+  config.activate.on-profile: dev
+  cloud.config:
+    enabled: false
+    fail-fast: true
+    name: '${spring.application.name}'

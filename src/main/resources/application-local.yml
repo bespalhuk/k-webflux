@@ -1,0 +1,25 @@
+---
+server:
+  shutdown: graceful
+  port: 8080
+
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  jackson:
+    default-property-inclusion: non_null
+  data:
+    mongodb:
+      auto-index-creation: true
+      uri: mongodb://admin:password@localhost:27017/db_kwebflux?authSource=admin
+
+integration:
+  client:
+    default:
+      timeout: 10000
+      keep-idle: 1
+      keep-interval: 1
+      keep-cnt: 1
+    pokemon-api:
+      url: 'http://localhost:9080/api'
+      timeout: 10000
