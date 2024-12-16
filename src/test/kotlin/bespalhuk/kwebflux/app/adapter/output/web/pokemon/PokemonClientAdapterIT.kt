@@ -35,13 +35,36 @@ class PokemonClientAdapterIT(
             }.verifyComplete()
     }
 
-    private fun response(move: String): PokemonWebResponse {
-        return PokemonWebResponse(
+    private fun response(move: String): PokemonWebResponse =
+        PokemonWebResponse(
             listOf(
                 MoveItem(
                     Move(move)
                 )
             )
         )
+
+    @Test
+    fun `given starter, retrieve move`() {
+        val starter = StarterPokemonEnum.PIKACHU
+        val starterResponse = response("shock")
+        PokemonStub.retrieve(starter.number, HttpStatus.OK, toJson(starterResponse))
+
+        pokemonClientAdapter.retrieveMove(starter)
+            .test().assertNext {
+                assertThat(it).isNotNull()
+            }.verifyComplete()
+    }
+
+    @Test
+    fun `given legendary, retrieve move`() {
+        val legendary = LegendaryPokemonEnum.MEW
+        val legendaryResponse = response("hadouken")
+        PokemonStub.retrieve(legendary.number, HttpStatus.OK, toJson(legendaryResponse))
+
+        pokemonClientAdapter.retrieveMove(legendary)
+            .test().assertNext {
+                assertThat(it).isNotNull()
+            }.verifyComplete()
     }
 }

@@ -3,8 +3,8 @@ package bespalhuk.kwebflux.core.usecase
 import bespalhuk.kwebflux.abstraction.UnitTest
 import bespalhuk.kwebflux.core.domain.service.PokemonService
 import bespalhuk.kwebflux.core.port.output.SaveUserPortOut
+import bespalhuk.kwebflux.dataprovider.CreateUserInputDataProvider
 import bespalhuk.kwebflux.dataprovider.UserDataProvider
-import bespalhuk.kwebflux.dataprovider.UserInputDataProvider
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
@@ -22,7 +22,7 @@ class CreateUserUseCaseTest : UnitTest() {
     private lateinit var saveUserPortOut: SaveUserPortOut
 
     @BeforeEach
-    fun init() {
+    fun beforeEach() {
         pokemonService = mockk()
         saveUserPortOut = mockk()
         createUserUseCase = CreateUserUseCase(
@@ -33,12 +33,12 @@ class CreateUserUseCaseTest : UnitTest() {
 
     @Test
     fun `verify calls when input return success`() {
-        val input = UserInputDataProvider().input()
+        val input = CreateUserInputDataProvider().input()
         val moves = Pair(
             "shock",
             "hadouken",
         )
-        val savedUser = UserDataProvider().user()
+        val user = UserDataProvider().user()
 
         every {
             pokemonService.getMoves(any())
@@ -46,14 +46,14 @@ class CreateUserUseCaseTest : UnitTest() {
 
         every {
             saveUserPortOut.save(any())
-        } returns (Mono.just(savedUser))
+        } returns (Mono.just(user))
 
         createUserUseCase.create(input)
             .test().assertNext {
                 assertThat(it.isSuccess).isTrue
                 assertThat(it.getOrNull())
                     .usingRecursiveComparison()
-                    .isEqualTo(savedUser)
+                    .isEqualTo(user)
             }.verifyComplete()
 
         verify(exactly = 1) {

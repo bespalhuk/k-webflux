@@ -5,7 +5,7 @@ data class PokemonWebResponse(
 )
 
 data class MoveItem(
-    val move: Move
+    val move: Move,
 )
 
 data class Move(

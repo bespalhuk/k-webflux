@@ -3,7 +3,7 @@ package bespalhuk.kwebflux.abstraction
 import bespalhuk.kwebflux.config.TestcontainersConfiguration
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
-import com.fasterxml.jackson.module.kotlin.KotlinModule
+import com.fasterxml.jackson.module.kotlin.kotlinModule
 import com.github.tomakehurst.wiremock.client.WireMock
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.extension.ExtendWith
@@ -31,7 +31,7 @@ abstract class IntegrationTest {
     fun encodeParameter(parameter: String): String = URLEncoder.encode(parameter, "UTF-8")
 
     fun toJson(any: Any): String = ObjectMapper()
-        .registerModule(KotlinModule.Builder().build())
+        .registerModule(kotlinModule())
         .registerModule(JavaTimeModule())
         .writeValueAsString(any)
 }

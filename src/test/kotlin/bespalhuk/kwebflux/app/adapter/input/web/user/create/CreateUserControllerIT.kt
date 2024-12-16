@@ -1,6 +1,7 @@
-package bespalhuk.kwebflux.app.adapter.input.web.user
+package bespalhuk.kwebflux.app.adapter.input.web.user.create
 
 import bespalhuk.kwebflux.abstraction.IntegrationTest
+import bespalhuk.kwebflux.app.adapter.input.web.user.UserResponse
 import bespalhuk.kwebflux.app.adapter.output.persistence.UserDocumentRepository
 import bespalhuk.kwebflux.app.adapter.output.web.pokemon.dto.Move
 import bespalhuk.kwebflux.app.adapter.output.web.pokemon.dto.MoveItem
@@ -34,11 +35,12 @@ class CreateUserControllerIT(
     }
 
     @Test
-    fun `given user request, create successfully`() {
+    fun `given request, create successfully`() {
         val document = UserDocumentDataProvider().document()
 
         val request = CreateUserRequest(
             document.username,
+            document.team.name,
             document.team.starter.number,
             document.team.legendary.number,
         )
@@ -53,25 +55,29 @@ class CreateUserControllerIT(
             .bodyValue(request)
             .exchange()
             .expectStatus().is2xxSuccessful
-            .returnResult<CreateUserResponse>()
+            .expectStatus().isEqualTo(HttpStatus.CREATED)
+            .returnResult<UserResponse>()
             .responseBody
+            .doOnNext { println("yolo: $it, document.id: ${document.id}") }
             .test()
             .expectNextMatches {
                 it.id.isNotBlank() &&
                         it.username == document.username &&
-                        it.starterMove.isNotBlank() &&
-                        it.legendaryMove.isNotBlank()
+                        it.team == document.team.name &&
+                        it.starterMove == document.team.starterMove &&
+                        it.legendaryMove == document.team.legendaryMove
             }
             .verifyComplete()
     }
 
     @Test
-    fun `given user request, fail on creation`() {
+    fun `given request, fail on creation`() {
         val document = UserDocumentDataProvider().document()
         userDocumentRepository.save(document).block()
 
         val request = CreateUserRequest(
             document.username,
+            document.team.name,
             document.team.starter.number,
             document.team.legendary.number,
         )
@@ -87,7 +93,6 @@ class CreateUserControllerIT(
             .exchange()
             .expectStatus().is4xxClientError
             .expectStatus().isEqualTo(HttpStatus.CONFLICT)
-
     }
 
     private fun stub() {
@@ -100,13 +105,12 @@ class CreateUserControllerIT(
         PokemonStub.retrieve(legendary.number, HttpStatus.OK, toJson(legendaryResponse))
     }
 
-    private fun response(move: String): PokemonWebResponse {
-        return PokemonWebResponse(
+    private fun response(move: String): PokemonWebResponse =
+        PokemonWebResponse(
             listOf(
                 MoveItem(
                     Move(move)
                 )
             )
         )
-    }
 }

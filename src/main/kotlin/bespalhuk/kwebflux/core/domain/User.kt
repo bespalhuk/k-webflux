@@ -10,9 +10,10 @@ data class User(
     val team: Team,
 ) {
     data class Team(
-        val starter: StarterPokemonEnum,
+        var name: String,
+        var starter: StarterPokemonEnum,
         var starterMove: String? = null,
-        val legendary: LegendaryPokemonEnum,
+        var legendary: LegendaryPokemonEnum,
         var legendaryMove: String? = null,
     )
 }

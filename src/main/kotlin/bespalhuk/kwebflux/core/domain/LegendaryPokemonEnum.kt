@@ -1,5 +1,8 @@
 package bespalhuk.kwebflux.core.domain
 
+import bespalhuk.kwebflux.core.domain.LegendaryPokemonEnum.entries
+
+
 enum class LegendaryPokemonEnum(val number: Int) {
     ARTICUNO(144),
     ZAPDOS(145),
@@ -9,8 +12,7 @@ enum class LegendaryPokemonEnum(val number: Int) {
     ;
 
     companion object {
-        fun map(number: Int?): LegendaryPokemonEnum {
-            return entries.find { it.number == number } ?: MEW
-        }
+        fun map(number: Int?): LegendaryPokemonEnum =
+            entries.find { it.number == number } ?: MEW
     }
 }

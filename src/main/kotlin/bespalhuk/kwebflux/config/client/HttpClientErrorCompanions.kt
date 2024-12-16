@@ -12,20 +12,19 @@ sealed class HttpClientErrorCompanions {
     companion object {
         private const val EMPTY = ""
 
-        fun notFound(message: String): Function<ClientResponse, Mono<out Throwable>> {
-            return Function { clientResponse: ClientResponse ->
+        fun notFound(message: String): Function<ClientResponse, Mono<out Throwable>> =
+            Function { clientResponse: ClientResponse ->
                 clientResponse.bodyToMono(String::class.java)
                     .switchIfEmpty(Mono.just(EMPTY))
                     .flatMap {
                         Mono.error(
-                            NotFoundClientException(message)
+                            NotFoundClientException(message),
                         )
                     }
             }
-        }
 
-        fun toClientError(methodName: String): Function<ClientResponse, Mono<out Throwable>> {
-            return Function { clientResponse: ClientResponse ->
+        fun toClientError(methodName: String): Function<ClientResponse, Mono<out Throwable>> =
+            Function { clientResponse: ClientResponse ->
                 clientResponse.bodyToMono(String::class.java)
                     .switchIfEmpty(Mono.just(EMPTY))
                     .flatMap {
@@ -37,10 +36,9 @@ sealed class HttpClientErrorCompanions {
                         )
                     }
             }
-        }
 
-        fun toServerError(methodName: String): Function<ClientResponse, Mono<out Throwable>> {
-            return Function { clientResponse: ClientResponse ->
+        fun toServerError(methodName: String): Function<ClientResponse, Mono<out Throwable>> =
+            Function { clientResponse: ClientResponse ->
                 clientResponse.bodyToMono(String::class.java)
                     .switchIfEmpty(Mono.just(EMPTY))
                     .flatMap {
@@ -52,6 +50,6 @@ sealed class HttpClientErrorCompanions {
                         )
                     }
             }
-        }
+
     }
 }

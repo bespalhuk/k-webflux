@@ -12,6 +12,32 @@ spring:
     mongodb:
       auto-index-creation: true
       uri: mongodb://admin:password@localhost:27017/db_kwebflux?authSource=admin
+  cloud:
+    function:
+      definition: rabbitProducer, rabbitConsumer
+    stream:
+      binders:
+        rabbit:
+          type: 'rabbit'
+        kafka:
+          type: 'kafka'
+      bindings:
+        updateStarterProducer-out-0:
+          binder: 'rabbit'
+          destination: 'updateStarter-queue'
+          content-type: 'application/json'
+        updateStarterConsumer-in-0:
+          binder: 'rabbit'
+          group: 'updateStarter-group'
+          destination: 'updateStarter-queue'
+        updateLegendaryProducer-out-0:
+          binder: 'kafka'
+          destination: 'updateLegendary-topic'
+          content-type: 'application/json'
+        updateLegendaryConsumer-in-0:
+          binder: 'kafka'
+          group: 'updateLegendary-group'
+          destination: 'updateLegendary-topic'
 
 integration:
   client:

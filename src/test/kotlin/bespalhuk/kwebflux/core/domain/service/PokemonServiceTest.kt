@@ -1,6 +1,8 @@
 package bespalhuk.kwebflux.core.domain.service
 
 import bespalhuk.kwebflux.abstraction.UnitTest
+import bespalhuk.kwebflux.core.domain.LegendaryPokemonEnum
+import bespalhuk.kwebflux.core.domain.StarterPokemonEnum
 import bespalhuk.kwebflux.core.port.output.RetrievePokemonPortOut
 import bespalhuk.kwebflux.dataprovider.UserDataProvider
 import io.mockk.every
@@ -19,7 +21,7 @@ class PokemonServiceTest : UnitTest() {
     private lateinit var retrievePokemonPortOut: RetrievePokemonPortOut
 
     @BeforeEach
-    fun init() {
+    fun beforeEach() {
         retrievePokemonPortOut = mockk()
         pokemonService = PokemonService(
             retrievePokemonPortOut,
@@ -54,6 +56,44 @@ class PokemonServiceTest : UnitTest() {
                 team.starter,
                 team.legendary,
             )
+        }
+    }
+
+    @Test
+    fun `verify calls when retrieving starter move`() {
+        val starter = StarterPokemonEnum.PIKACHU
+        val move = "shock"
+
+        every {
+            retrievePokemonPortOut.retrieveMove(starter)
+        } returns (Mono.just(move))
+
+        pokemonService.getMove(starter)
+            .test().assertNext {
+                assertThat(it).isEqualTo(move)
+            }.verifyComplete()
+
+        verify(exactly = 1) {
+            retrievePokemonPortOut.retrieveMove(starter)
+        }
+    }
+
+    @Test
+    fun `verify calls when retrieving legendary move`() {
+        val legendary = LegendaryPokemonEnum.MEW
+        val move = "hadouken"
+
+        every {
+            retrievePokemonPortOut.retrieveMove(legendary)
+        } returns (Mono.just(move))
+
+        pokemonService.getMove(legendary)
+            .test().assertNext {
+                assertThat(it).isEqualTo(move)
+            }.verifyComplete()
+
+        verify(exactly = 1) {
+            retrievePokemonPortOut.retrieveMove(legendary)
         }
     }
 }

@@ -4,7 +4,7 @@ import bespalhuk.kwebflux.core.domain.LegendaryPokemonEnum
 import bespalhuk.kwebflux.core.domain.StarterPokemonEnum
 import bespalhuk.kwebflux.core.domain.User
 import java.time.Instant
-import java.util.*
+import java.util.UUID
 
 class UserDataProvider {
 
@@ -14,6 +14,7 @@ class UserDataProvider {
         null,
         "username",
         User.Team(
+            "rocket",
             StarterPokemonEnum.PIKACHU,
             "shock",
             LegendaryPokemonEnum.MEW,
@@ -27,6 +28,7 @@ class UserDataProvider {
         Instant.now(),
         "username",
         User.Team(
+            "rocket",
             StarterPokemonEnum.PIKACHU,
             "shock",
             LegendaryPokemonEnum.MEW,

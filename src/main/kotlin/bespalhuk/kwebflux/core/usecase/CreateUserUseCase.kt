@@ -4,7 +4,7 @@ import bespalhuk.kwebflux.core.common.exception.UserAlreadyExistsException
 import bespalhuk.kwebflux.core.domain.User
 import bespalhuk.kwebflux.core.domain.mapper.toDomain
 import bespalhuk.kwebflux.core.domain.service.PokemonService
-import bespalhuk.kwebflux.core.domain.vo.UserInput
+import bespalhuk.kwebflux.core.domain.vo.CreateUserInput
 import bespalhuk.kwebflux.core.port.input.CreateUserPortIn
 import bespalhuk.kwebflux.core.port.output.SaveUserPortOut
 import mu.KotlinLogging
@@ -22,10 +22,10 @@ class CreateUserUseCase(
     private val saveUserPortOut: SaveUserPortOut,
 ) : CreateUserPortIn {
 
-    override fun create(input: UserInput): Mono<Result<User>> =
+    override fun create(input: CreateUserInput): Mono<Result<User>> =
         Mono.just(input)
-            .map { input.toDomain() }
-            .flatMap { applyPokemonMoves(it) }
+            .map { it.toDomain() }
+            .flatMap { applyMoves(it) }
             .flatMap { saveUserPortOut.save(it) }
             .map { Result.success(it) }
             .onErrorResume { throwable ->
@@ -33,7 +33,7 @@ class CreateUserUseCase(
             }
             .log("CreateUserUseCase.create", Level.INFO, SignalType.ON_NEXT)
 
-    private fun applyPokemonMoves(user: User): Mono<User> =
+    private fun applyMoves(user: User): Mono<User> =
         Mono.just(user)
             .flatMap { pokemonService.getMoves(it.team) }
             .map {
@@ -45,7 +45,7 @@ class CreateUserUseCase(
 
     private fun onErrorReturn(
         throwable: Throwable,
-        input: UserInput,
+        input: CreateUserInput,
     ): Mono<out Result<User>> =
         if (throwable is DuplicateKeyException) {
             log.error { "User already exists: ${input.username}." }

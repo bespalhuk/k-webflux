@@ -47,6 +47,22 @@ class PokemonClientAdapter(
                 )
             }
 
+    override fun retrieveMove(starter: StarterPokemonEnum): Mono<String> =
+        Mono.just(starter)
+            .flatMap { retrieveMove(it.number) }
+
+    override fun retrieveMove(legendary: LegendaryPokemonEnum): Mono<String> =
+        Mono.just(legendary)
+            .flatMap { retrieveMove(it.number) }
+
+    private fun retrieveMove(number: Int): Mono<String> =
+        Mono.just(number)
+            .flatMap { retrieve(it) }
+            .onErrorMap(RuntimeException::class.java) {
+                PokemonResponseException("Failed trying to retrieving move from pokemon $it")
+            }
+            .map { it.moves.random().move.name }
+
     private fun retrieve(number: Int): Mono<PokemonWebResponse> =
         webClientPokemon.get()
             .uri("/pokemon/{number}", number)
