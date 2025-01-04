@@ -4,6 +4,8 @@ server:
   port: 8080
 
 spring:
+  application:
+    name: k-webflux
   main:
     allow-bean-definition-overriding: true
   jackson:
@@ -12,32 +14,39 @@ spring:
     mongodb:
       auto-index-creation: true
       uri: mongodb://admin:password@localhost:27017/db_kwebflux?authSource=admin
+  rabbitmq:
+    addresses: localhost:5672
+    username: user
+    password: pass
+    virtual-host: /vh
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      auto-offset-reset: earliest
   cloud:
     function:
-      definition: rabbitProducer, rabbitConsumer
+      definition: updateStarterConsumer;updateLegendaryConsumer
     stream:
-      binders:
-        rabbit:
-          type: 'rabbit'
-        kafka:
-          type: 'kafka'
       bindings:
         updateStarterProducer-out-0:
-          binder: 'rabbit'
-          destination: 'updateStarter-queue'
-          content-type: 'application/json'
+          binder: rabbit
+          destination: updateStarter-queue
         updateStarterConsumer-in-0:
-          binder: 'rabbit'
-          group: 'updateStarter-group'
-          destination: 'updateStarter-queue'
+          binder: rabbit
+          group: updateStarter-queue
+          destination: updateStarter-queue
         updateLegendaryProducer-out-0:
-          binder: 'kafka'
-          destination: 'updateLegendary-topic'
-          content-type: 'application/json'
+          binder: kafka
+          destination: updateLegendary-topic
         updateLegendaryConsumer-in-0:
-          binder: 'kafka'
-          group: 'updateLegendary-group'
-          destination: 'updateLegendary-topic'
+          binder: kafka
+          group: ${spring.application.name}-updateLegendary-topic
+          destination: updateLegendary-topic
+      rabbit:
+        bindings:
+          updateStarterConsumer-in-0:
+            consumer:
+              queue-name-group-only: true
 
 integration:
   client:
@@ -47,5 +56,5 @@ integration:
       keep-interval: 1
       keep-cnt: 1
     pokemon-api:
-      url: 'http://localhost:9080/api'
+      url: http://localhost:9080/api
       timeout: 10000

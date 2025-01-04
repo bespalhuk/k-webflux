@@ -42,7 +42,7 @@ class PokemonServiceTest : UnitTest() {
                 team.starter,
                 team.legendary,
             )
-        } returns (Mono.just(moves))
+        } returns Mono.just(moves)
 
         pokemonService.getMoves(team)
             .test().assertNext {
@@ -66,7 +66,7 @@ class PokemonServiceTest : UnitTest() {
 
         every {
             retrievePokemonPortOut.retrieveMove(starter)
-        } returns (Mono.just(move))
+        } returns Mono.just(move)
 
         pokemonService.getMove(starter)
             .test().assertNext {
@@ -85,7 +85,7 @@ class PokemonServiceTest : UnitTest() {
 
         every {
             retrievePokemonPortOut.retrieveMove(legendary)
-        } returns (Mono.just(move))
+        } returns Mono.just(move)
 
         pokemonService.getMove(legendary)
             .test().assertNext {

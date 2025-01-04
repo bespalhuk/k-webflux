@@ -2,7 +2,6 @@ package bespalhuk.kwebflux.core.domain
 
 import bespalhuk.kwebflux.core.domain.StarterPokemonEnum.entries
 
-
 enum class StarterPokemonEnum(val number: Int) {
     BULBASAUR(1),
     CHARMANDER(4),

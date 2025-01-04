@@ -42,11 +42,11 @@ class CreateUserUseCaseTest : UnitTest() {
 
         every {
             pokemonService.getMoves(any())
-        } returns (Mono.just(moves))
+        } returns Mono.just(moves)
 
         every {
             saveUserPortOut.save(any())
-        } returns (Mono.just(user))
+        } returns Mono.just(user)
 
         createUserUseCase.create(input)
             .test().assertNext {

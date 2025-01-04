@@ -9,7 +9,7 @@ import reactor.core.publisher.Mono
 
 @Service
 class PokemonService(
-    private val retrievePokemonPortOut: RetrievePokemonPortOut
+    private val retrievePokemonPortOut: RetrievePokemonPortOut,
 ) {
 
     fun getMoves(team: User.Team): Mono<Pair<String, String>> =

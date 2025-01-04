@@ -3,6 +3,8 @@ server:
   shutdown: graceful
 
 spring:
+  application:
+    name: k-webflux
   main:
     allow-bean-definition-overriding: true
   jackson:
@@ -10,6 +12,30 @@ spring:
   data:
     mongodb:
       auto-index-creation: true
+  cloud:
+    function:
+      definition: updateStarterConsumer;updateLegendaryConsumer
+    stream:
+      bindings:
+        updateStarterProducer-out-0:
+          binder: rabbit
+          destination: updateStarter-queue
+        updateStarterConsumer-in-0:
+          binder: rabbit
+          group: updateStarter-queue
+          destination: updateStarter-queue
+        updateLegendaryProducer-out-0:
+          binder: kafka
+          destination: updateLegendary-topic
+        updateLegendaryConsumer-in-0:
+          binder: kafka
+          group: ${spring.application.name}-updateLegendary-topic
+          destination: updateLegendary-topic
+      rabbit:
+        bindings:
+          updateStarterConsumer-in-0:
+            consumer:
+              queue-name-group-only: true
 
 integration:
   client:
@@ -19,5 +45,5 @@ integration:
       keep-interval: 1
       keep-cnt: 1
     pokemon-api:
-      url: 'http://localhost:${wiremock.server.port}/api'
+      url: http://localhost:${wiremock.server.port}/api
       timeout: 10000
