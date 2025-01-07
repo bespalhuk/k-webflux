@@ -49,7 +49,7 @@ class UpdateLegendaryUseCase(
             .flatMap { pokemonService.getMove(it.team.legendary) }
             .map {
                 user.apply {
-                    user.team.legendaryMove = it
+                    team.legendaryMove = it
                 }
             }
 }

@@ -49,7 +49,7 @@ class UpdateStarterUseCase(
             .flatMap { pokemonService.getMove(it.team.starter) }
             .map {
                 user.apply {
-                    user.team.starterMove = it
+                    team.starterMove = it
                 }
             }
 }

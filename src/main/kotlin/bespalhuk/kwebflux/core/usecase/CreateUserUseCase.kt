@@ -38,8 +38,8 @@ class CreateUserUseCase(
             .flatMap { pokemonService.getMoves(it.team) }
             .map {
                 user.apply {
-                    user.team.starterMove = it.first
-                    user.team.legendaryMove = it.second
+                    team.starterMove = it.first
+                    team.legendaryMove = it.second
                 }
             }
 
