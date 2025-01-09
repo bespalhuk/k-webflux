@@ -18,7 +18,6 @@ spring:
     addresses: localhost:5672
     username: user
     password: pass
-    virtual-host: /vh
   kafka:
     bootstrap-servers: localhost:9092
     consumer:
