@@ -23,7 +23,7 @@ class WebClientConfig(
     private val defaultWebClientProperties: DefaultWebClientProperties,
 ) {
 
-    fun buildHttpClient(timeout: Int): ReactorClientHttpConnector =
+    fun clientConnector(timeout: Int): ReactorClientHttpConnector =
         ReactorClientHttpConnector(
             HttpClient.create()
                 .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, timeout)

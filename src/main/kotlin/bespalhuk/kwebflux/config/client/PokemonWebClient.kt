@@ -19,7 +19,7 @@ class PokemonWebClient(
     @Bean(QUALIFIER_WEBCLIENT_POKEMON)
     fun webClient(): WebClient = WebClient.builder()
         .baseUrl(pokemonApiProperties.url)
-        .clientConnector(webClientConfig.buildHttpClient(pokemonApiProperties.timeout))
+        .clientConnector(webClientConfig.clientConnector(pokemonApiProperties.timeout))
         .defaultHeader(REQUEST_ORIGIN, APP_NAME)
         .exchangeStrategies(
             ExchangeStrategies.builder()
