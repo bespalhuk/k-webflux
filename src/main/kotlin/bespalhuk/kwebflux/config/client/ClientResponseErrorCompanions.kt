@@ -7,7 +7,7 @@ import org.springframework.web.reactive.function.client.ClientResponse
 import reactor.core.publisher.Mono
 import java.util.function.Function
 
-sealed class HttpClientErrorCompanions {
+sealed class ClientResponseErrorCompanions {
 
     companion object {
         private const val EMPTY = ""

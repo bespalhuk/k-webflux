@@ -1,9 +1,9 @@
 package bespalhuk.kwebflux.app.adapter.output.web.pokemon
 
-import bespalhuk.kwebflux.app.adapter.output.web.pokemon.dto.PokemonWebResponse
+import bespalhuk.kwebflux.app.adapter.output.web.pokemon.dto.PokemonResponse
 import bespalhuk.kwebflux.app.adapter.output.web.pokemon.exception.PokemonResponseException
-import bespalhuk.kwebflux.config.client.HttpClientErrorCompanions
-import bespalhuk.kwebflux.config.client.WebClientConstants.Constants.BEAN_WEBCLIENT_POKEMON
+import bespalhuk.kwebflux.config.client.ClientResponseErrorCompanions
+import bespalhuk.kwebflux.config.client.ClientConstants.Constants.QUALIFIER_WEBCLIENT_POKEMON
 import bespalhuk.kwebflux.core.domain.LegendaryPokemonEnum
 import bespalhuk.kwebflux.core.domain.StarterPokemonEnum
 import bespalhuk.kwebflux.core.port.output.RetrievePokemonPortOut
@@ -19,8 +19,8 @@ import java.util.logging.Level
 
 @Component
 class PokemonClientAdapter(
-    @Qualifier(BEAN_WEBCLIENT_POKEMON)
-    private val webClientPokemon: WebClient,
+    @Qualifier(QUALIFIER_WEBCLIENT_POKEMON)
+    private val pokemonWebClient: WebClient,
 ) : RetrievePokemonPortOut {
 
     companion object {
@@ -59,27 +59,27 @@ class PokemonClientAdapter(
         Mono.just(number)
             .flatMap { retrieve(it) }
             .onErrorMap(RuntimeException::class.java) {
-                PokemonResponseException("Failed trying to retrieving move from pokemon $it")
+                PokemonResponseException("Failed trying to retrieve move from pokemon $it")
             }
             .map { it.moves.random().move.name }
 
-    private fun retrieve(number: Int): Mono<PokemonWebResponse> =
-        webClientPokemon.get()
+    private fun retrieve(number: Int): Mono<PokemonResponse> =
+        pokemonWebClient.get()
             .uri("/pokemon/{number}", number)
             .retrieve()
             .onStatus(
                 HttpStatus.NOT_FOUND::equals,
-                HttpClientErrorCompanions.notFound("Pokemon not found."),
+                ClientResponseErrorCompanions.notFound("Pokemon not found."),
             )
             .onStatus(
                 { status -> status.is4xxClientError },
-                HttpClientErrorCompanions.toClientError(RETRIEVE_POKEMON)
+                ClientResponseErrorCompanions.toClientError(RETRIEVE_POKEMON)
             )
             .onStatus(
                 { status -> status.is5xxServerError },
-                HttpClientErrorCompanions.toServerError(RETRIEVE_POKEMON),
+                ClientResponseErrorCompanions.toServerError(RETRIEVE_POKEMON),
             )
-            .bodyToMono(PokemonWebResponse::class.java)
+            .bodyToMono(PokemonResponse::class.java)
             .onErrorResume(RuntimeException::class) {
                 Mono.error(it)
             }

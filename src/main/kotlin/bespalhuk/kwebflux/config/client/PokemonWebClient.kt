@@ -1,9 +1,9 @@
 package bespalhuk.kwebflux.config.client
 
-import bespalhuk.kwebflux.config.client.WebClientConstants.Constants.APP_NAME
-import bespalhuk.kwebflux.config.client.WebClientConstants.Constants.BEAN_WEBCLIENT_POKEMON
-import bespalhuk.kwebflux.config.client.WebClientConstants.Constants.REQUEST_ORIGIN
-import bespalhuk.kwebflux.config.properties.PokeApiProperties
+import bespalhuk.kwebflux.config.client.ClientConstants.Constants.APP_NAME
+import bespalhuk.kwebflux.config.client.ClientConstants.Constants.QUALIFIER_WEBCLIENT_POKEMON
+import bespalhuk.kwebflux.config.client.ClientConstants.Constants.REQUEST_ORIGIN
+import bespalhuk.kwebflux.config.properties.PokemonApiProperties
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.codec.CodecConfigurer
@@ -11,15 +11,15 @@ import org.springframework.web.reactive.function.client.ExchangeStrategies
 import org.springframework.web.reactive.function.client.WebClient
 
 @Configuration
-class PokemonClient(
-    private val webClientConfiguration: WebClientConfig,
-    private val pokeApiProperties: PokeApiProperties,
+class PokemonWebClient(
+    private val webClientConfig: WebClientConfig,
+    private val pokemonApiProperties: PokemonApiProperties,
 ) {
 
-    @Bean(BEAN_WEBCLIENT_POKEMON)
+    @Bean(QUALIFIER_WEBCLIENT_POKEMON)
     fun webClient(): WebClient = WebClient.builder()
-        .baseUrl(pokeApiProperties.url)
-        .clientConnector(webClientConfiguration.buildHttpClient(pokeApiProperties.timeout))
+        .baseUrl(pokemonApiProperties.url)
+        .clientConnector(webClientConfig.buildHttpClient(pokemonApiProperties.timeout))
         .defaultHeader(REQUEST_ORIGIN, APP_NAME)
         .exchangeStrategies(
             ExchangeStrategies.builder()
@@ -28,6 +28,6 @@ class PokemonClient(
                 }
                 .build()
         )
-        .filter(webClientConfiguration.logRequestFilter(BEAN_WEBCLIENT_POKEMON))
+        .filter(webClientConfig.logRequestFilter(QUALIFIER_WEBCLIENT_POKEMON))
         .build()
 }

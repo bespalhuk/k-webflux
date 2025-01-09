@@ -5,11 +5,11 @@ import bespalhuk.kwebflux.app.adapter.input.web.user.UserResponse
 import bespalhuk.kwebflux.app.adapter.output.persistence.UserDocumentRepository
 import bespalhuk.kwebflux.app.adapter.output.web.pokemon.dto.Move
 import bespalhuk.kwebflux.app.adapter.output.web.pokemon.dto.MoveItem
-import bespalhuk.kwebflux.app.adapter.output.web.pokemon.dto.PokemonWebResponse
+import bespalhuk.kwebflux.app.adapter.output.web.pokemon.dto.PokemonResponse
 import bespalhuk.kwebflux.core.domain.LegendaryPokemonEnum
 import bespalhuk.kwebflux.core.domain.StarterPokemonEnum
 import bespalhuk.kwebflux.dataprovider.UserDocumentDataProvider
-import bespalhuk.kwebflux.dataprovider.stub.PokemonStub
+import bespalhuk.kwebflux.dataprovider.stub.PokemonApiStub
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -98,15 +98,15 @@ class CreateUserControllerIT(
     private fun stub() {
         val starter = StarterPokemonEnum.PIKACHU
         val starterResponse = response("shock")
-        PokemonStub.retrieve(starter.number, HttpStatus.OK, toJson(starterResponse))
+        PokemonApiStub.retrieve(starter.number, HttpStatus.OK, toJson(starterResponse))
 
         val legendary = LegendaryPokemonEnum.MEW
         val legendaryResponse = response("hadouken")
-        PokemonStub.retrieve(legendary.number, HttpStatus.OK, toJson(legendaryResponse))
+        PokemonApiStub.retrieve(legendary.number, HttpStatus.OK, toJson(legendaryResponse))
     }
 
-    private fun response(move: String): PokemonWebResponse =
-        PokemonWebResponse(
+    private fun response(move: String): PokemonResponse =
+        PokemonResponse(
             listOf(
                 MoveItem(
                     Move(move)

@@ -1,6 +1,6 @@
 package bespalhuk.kwebflux.app.adapter.output.web.pokemon.dto
 
-data class PokemonWebResponse(
+data class PokemonResponse(
     val moves: List<MoveItem>,
 )
 

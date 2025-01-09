@@ -6,11 +6,11 @@ import bespalhuk.kwebflux.app.adapter.output.persistence.UserDocumentRepository
 import bespalhuk.kwebflux.app.adapter.output.persistence.mapper.toDocument
 import bespalhuk.kwebflux.app.adapter.output.web.pokemon.dto.Move
 import bespalhuk.kwebflux.app.adapter.output.web.pokemon.dto.MoveItem
-import bespalhuk.kwebflux.app.adapter.output.web.pokemon.dto.PokemonWebResponse
+import bespalhuk.kwebflux.app.adapter.output.web.pokemon.dto.PokemonResponse
 import bespalhuk.kwebflux.core.domain.StarterPokemonEnum
 import bespalhuk.kwebflux.core.domain.vo.UpdateStarterOutput
 import bespalhuk.kwebflux.dataprovider.UserDataProvider
-import bespalhuk.kwebflux.dataprovider.stub.PokemonStub
+import bespalhuk.kwebflux.dataprovider.stub.PokemonApiStub
 import org.assertj.core.api.Assertions.assertThat
 import org.awaitility.Awaitility.await
 import org.junit.jupiter.api.AfterEach
@@ -64,11 +64,11 @@ class UpdateStarterQueueConsumerIT(
 
     private fun stub(starter: StarterPokemonEnum) {
         val response = response()
-        PokemonStub.retrieve(starter.number, HttpStatus.OK, toJson(response))
+        PokemonApiStub.retrieve(starter.number, HttpStatus.OK, toJson(response))
     }
 
-    private fun response(): PokemonWebResponse =
-        PokemonWebResponse(
+    private fun response(): PokemonResponse =
+        PokemonResponse(
             listOf(
                 MoveItem(
                     Move("vine whip")
