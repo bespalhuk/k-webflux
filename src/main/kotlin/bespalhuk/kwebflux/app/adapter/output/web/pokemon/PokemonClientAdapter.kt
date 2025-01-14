@@ -73,7 +73,7 @@ class PokemonClientAdapter(
             )
             .onStatus(
                 { status -> status.is4xxClientError },
-                ClientResponseErrorCompanions.toClientError(RETRIEVE_POKEMON)
+                ClientResponseErrorCompanions.toClientError(RETRIEVE_POKEMON),
             )
             .onStatus(
                 { status -> status.is5xxServerError },

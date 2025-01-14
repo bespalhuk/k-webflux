@@ -31,7 +31,7 @@ sealed class ClientResponseErrorCompanions {
                         Mono.error(
                             HttpClientErrorException(
                                 clientResponse.statusCode(),
-                                "$methodName: it",
+                                "$methodName: $it",
                             ),
                         )
                     }
@@ -45,7 +45,7 @@ sealed class ClientResponseErrorCompanions {
                         Mono.error(
                             HttpServerErrorException(
                                 clientResponse.statusCode(),
-                                "$methodName: it",
+                                "$methodName: $it",
                             ),
                         )
                     }
