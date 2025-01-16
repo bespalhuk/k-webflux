@@ -2,8 +2,8 @@ package bespalhuk.kwebflux.app.adapter.output.web.pokemon
 
 import bespalhuk.kwebflux.app.adapter.output.web.pokemon.dto.PokemonResponse
 import bespalhuk.kwebflux.app.adapter.output.web.pokemon.exception.PokemonResponseException
-import bespalhuk.kwebflux.config.client.ClientResponseErrorCompanions
 import bespalhuk.kwebflux.config.client.ClientConstants.Constants.QUALIFIER_WEBCLIENT_POKEMON
+import bespalhuk.kwebflux.config.client.ClientResponseErrorCompanions
 import bespalhuk.kwebflux.core.domain.LegendaryPokemonEnum
 import bespalhuk.kwebflux.core.domain.StarterPokemonEnum
 import bespalhuk.kwebflux.core.port.output.RetrievePokemonPortOut

@@ -36,7 +36,6 @@ dependencies {
 	testImplementation("com.tngtech.archunit:archunit-junit5:1.3.0")
 	testImplementation("io.mockk:mockk:1.13.13")
 	testImplementation("io.projectreactor:reactor-test")
-	testImplementation("org.awaitility:awaitility")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.springframework.boot:spring-boot-testcontainers")
 	testImplementation("org.springframework.cloud:spring-cloud-contract-wiremock")

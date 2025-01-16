@@ -58,7 +58,6 @@ class CreateUserControllerIT(
             .expectStatus().isEqualTo(HttpStatus.CREATED)
             .returnResult<UserResponse>()
             .responseBody
-            .doOnNext { println("yolo: $it, document.id: ${document.id}") }
             .test()
             .expectNextMatches {
                 it.id.isNotBlank() &&
