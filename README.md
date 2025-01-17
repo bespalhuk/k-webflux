@@ -6,6 +6,7 @@ Due to its simplicity, concurrency issues may occur.
 - Spring Webflux
 - Spring Data MongoDB (Reactive)
 - Spring Cloud Stream (RabbitMQ, Kafka)
+- WebClient
 - Wiremock
 - Testcontainers (MongoDB, RabbitMQ, Kafka)
 
